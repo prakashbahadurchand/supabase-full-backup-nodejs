@@ -1,0 +1,30 @@
+{
+  "name": "supabase-full-backup-nodejs",
+  "version": "2.1.0",
+  "description": "Production-grade, modular Node.js tool for backing up complete Supabase database schemas, data, RPCs, RLS, storage buckets, and Edge functions.",
+  "type": "module",
+  "main": "src/backup.js",
+  "bin": {
+    "supabase-backup": "src/backup.js"
+  },
+  "scripts": {
+    "start": "node src/backup.js",
+    "backup": "node src/backup.js"
+  },
+  "keywords": [
+    "supabase",
+    "backup",
+    "postgres",
+    "postgresql",
+    "rls",
+    "sql-dump",
+    "storage-backup"
+  ],
+  "author": "Prakash Bahadur Chand",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "dotenv": "^16.6.1",
+    "postgres": "^3.4.9"
+  }
+}
