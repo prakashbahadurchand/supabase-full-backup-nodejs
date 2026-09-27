@@ -1,4 +1,4 @@
-.PHONY: help install start backup clean check check-env
+.PHONY: help install start run backup restore clean check check-env
 
 # Default target
 all: help
@@ -6,13 +6,13 @@ all: help
 ## Display help message
 help:
 	@echo "================================================================"
-	@echo "⚡ Supabase Full Backup Utility - Makefile Commands"
+	@echo "⚡ Supabase Full Backup & Restore Utility"
 	@echo "================================================================"
-	@echo "  make install     - Install npm dependencies"
-	@echo "  make check-env   - Verify that .env file exists"
-	@echo "  make start       - Run the full backup process (alias: make backup)"
-	@echo "  make backup      - Run the full backup process"
+	@echo "  make backup      - Run full backup (schemas, data, RPCs, RLS, storage, functions)"
+	@echo "  make restore     - Interactive restore wizard (select backup, review, confirm yes/no)"
 	@echo "  make check       - Validate JavaScript syntax across all source files"
+	@echo "  make check-env   - Verify that .env file exists"
+	@echo "  make install     - Install npm dependencies"
 	@echo "  make clean       - Remove generated backups directory"
 	@echo "================================================================"
 
@@ -28,8 +28,6 @@ check-env:
 		echo "👉 Please copy .env.example to .env and configure your credentials:"; \
 		echo "   cp .env.example .env"; \
 		exit 1; \
-	else \
-		echo "✅ .env file detected."; \
 	fi
 
 ## Run syntax check
@@ -44,14 +42,20 @@ check:
 	node -c src/modules/edgeFunctionsExporter.js
 	node -c src/modules/storageExporter.js
 	node -c src/backup.js
+	node -c src/restore.js
 	@echo "✅ All source files passed syntax check."
 
 ## Run the backup process
-start: check-env
-	@echo "🚀 Initiating backup process..."
-	npm start
+backup: check-env
+	@echo "🚀 Initiating full backup..."
+	npm run backup
 
-backup: start
+start: backup
+run: backup
+
+## Run interactive restore wizard
+restore: check-env
+	@node src/restore.js
 
 ## Clean backup directory
 clean:

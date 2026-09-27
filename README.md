@@ -129,24 +129,35 @@ STORAGE_LIST_LIMIT=100
 
 ## 🏃 Execution
 
-You can run the backup using either `make` or `npm`:
+### 1. Full Backup
 
-### Using Makefile (Recommended)
-
-```bash
-make help        # View available commands
-make start       # Run the full backup (validates .env automatically)
-make check       # Validate JavaScript syntax across all source files
-make clean       # Remove generated backups folder
-```
-
-### Using npm
+Run the full backup pipeline (schemas, data, RPCs, RLS, storage, edge functions):
 
 ```bash
-npm start
-# or
-npm run backup
+make backup
 ```
+
+*(Aliases: `make start`, `make run`, or `npm run backup`)*
+
+---
+
+### 2. Interactive Restore
+
+To restore into your configured Supabase project:
+
+```bash
+make restore
+```
+
+*(Alias: `npm run restore`)*
+
+The restore wizard will:
+1. List all available backup runs chronologically.
+2. Prompt you to pick the backup number.
+3. Inspect and display what will be restored (Schemas, Data, RPCs, RLS, Storage Buckets, Edge Functions).
+4. Display the target Supabase destination (URL & masked DB URI).
+5. Require explicit confirmation: `Are you sure you want to restore to this database? (yes/no):`.
+6. Apply schema, data, RPCs, RLS policies, and sync storage buckets in safe transactional batches.
 
 ---
 
